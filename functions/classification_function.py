@@ -32,13 +32,6 @@ def split_data(X, y, f, method = 'k_fold', num_splits = 5, num_repeats = 20, ran
         splits = kf.split(f, f[:, -1])
     else:
         raise ValueError("Invalid data grouping method")
-
-    # data_splits = []
-    # for train_index, test_index in splits:
-    #     X_train, X_test = X[train_index], X[test_index]
-    #     y_train, y_test = y[train_index], y[test_index]
-    #     data_splits.append((X_train, X_test, y_train, y_test, test_index))
-
     return splits
 
 #--- feature selection for training data
@@ -142,47 +135,4 @@ def predict(X_train_selected, y_train, X_test_selected, y_test, class_label, gro
         else:
             raise ValueError("Invalid data grouping method")
     
-    # return accuracy, cm, report, precision, recall, f1, predict_time
     return accuracy, cm, report, precision, recall, f1, predict_time, y_pred, model
-
-# #--- predict the Unknown label
-# def predict_unknown(X_train_selected, y_train, X_test_selected, model='logistic_regression'):
-#     if model == 'logistic_regression':
-#         model = make_pipeline(StandardScaler(), LogisticRegression(n_jobs=-1))
-#     elif model == 'svc':
-#         model = make_pipeline(StandardScaler(), SVC())
-#     elif model == 'decision_tree':
-#         model = make_pipeline(StandardScaler(), DecisionTreeClassifier())
-#     elif model == 'k_neighbors':
-#         model = make_pipeline(StandardScaler(), KNeighborsClassifier(n_jobs=-1))
-#     elif model == 'gaussian_nb':
-#         model = make_pipeline(StandardScaler(), GaussianNB())
-#     elif model == 'mlp':
-#         model = make_pipeline(StandardScaler(), MLPClassifier())
-#     elif model == 'random_forest':
-#         model = make_pipeline(StandardScaler(), RandomForestClassifier(n_jobs=-1))
-#     elif model == 'gradient_boosting':
-#         model = make_pipeline(StandardScaler(), GradientBoostingClassifier())
-#     elif model == 'adaboost':
-#         model = make_pipeline(StandardScaler(), AdaBoostClassifier())
-#     elif model == 'bagging':
-#         model = make_pipeline(StandardScaler(), BaggingClassifier(n_jobs=-1))
-#     elif model == 'extra_trees':
-#         model = make_pipeline(StandardScaler(), ExtraTreesClassifier(n_jobs=-1))
-#     elif model == 'voting':
-#         model = make_pipeline(StandardScaler(), VotingClassifier(
-#             estimators=[('lr', LogisticRegression(n_jobs=-1)), ('rf', RandomForestClassifier(n_jobs=-1)), ('gb', GradientBoostingClassifier())]
-#         ))
-#     else:
-#         raise ValueError("Invalid model")
-
-#     start_time = time.time()
-#     model.fit(X_train_selected, y_train)
-#     y_pred = model.predict(X_test_selected)
-#     end_time = time.time()
-
-#     predict_time = end_time - start_time
-
-#     # return accuracy, cm, report, precision, recall, f1, predict_time
-#     return model, predict_time, y_pred
-
