@@ -6,33 +6,7 @@ import sys
 import io
 import numpy as np
 
-#-------------------------------------
-#--- parameters
-# work path
-# wkdir = "/mnt/export/home/nsccwuxi_scau/zhangz2/data/USER/linqing/identification"
-# wkdir = "D:\\task_work\\20240308_identification"
-
-# wkdir = "D:\\task_work\\20240308_identification"
-
-# group_method = "stratified_kfold" # k_fold, stratified_kfold
-# num_splits = 5
-# num_repeats = 1
-
-# feature_method = "f_classif"
-# num_features = 100
-
-# class_model = "logistic_regression"
-# class_label = "Unknown" # Male, Stage0
-
-# folder_path = "Pig.tpm.ref.stage.test"
-
-# input_X_file = "Pig.tpm.ref.stage.txt.gz"
-# input_y_file = "Pig.tpm.ref.stage.txt"
-
-# input_X_test_file = "Pig.tpm.tes.stage.txt.gz"
-# input_y_test_file = "Pig.tpm.tes.stage.txt"
-
-
+#--- parameter setting
 wkdir = sys.argv[1]
 
 group_method = sys.argv[2] # k_fold: binary class, stratified_kfold: multiple class
@@ -51,26 +25,6 @@ input_X_file = sys.argv[10]
 input_y_file = sys.argv[11]
 
 input_X_test_file = sys.argv[12]
-# input_y_test_file = sys.argv[13]
-
-#--- group CV
-# group_method = "stratified_kfold"
-# num_splits = 10
-# num_repeats = 10
-#--- feature selection
-# feature_method = sys.argv[1]
-# num_features = int(sys.argv[2])
-#--- classification
-# class_model = sys.argv[3]
-# class_label = "Male"
-
-# feature_method = "f_classif"
-# num_features = 200
-# class_model = "logistic_regression"
-# class_label = "Male"
-
-# input_y_test_file = "Pig.tpm.tes.sex.txt"
-# stratified_kfold
 #-------------------------------------
 #--- define the work path
 os.chdir(wkdir)
@@ -79,13 +33,7 @@ func_path = "{0}/functions".format(wkdir)
 sys.path.append(func_path)
 import classification_function as cf
 
-# import importlib
-# importlib.reload(classify_function_20240823)
-# import classify_function_20240823 as cf
-
 input_path = "{0}/data".format(wkdir)
-# input_X_file = 'Pig.tpm.all.txt.gz'
-# input_y_file = "Pig.tmp.all.sex.txt"
 
 # folder_path = "Pig.sex.counts.Saturated.results"
 os.makedirs(folder_path, exist_ok = True)
@@ -119,11 +67,6 @@ y = y.values
 #--- create data frame f for cv group
 f = np.column_stack((ind_id, y))
 
-# label_mapping = np.unique(y)
-# label_mapping = {category: i for i, category in enumerate(label_mapping)}
-# y_pred_num = np.array([label_mapping[category] for category in y_pred])
-# y_test_num = np.array([label_mapping[category] for category in y_test])
-
 #---------------------------------------------------
 #--- read X_test, y_test data
 #--- when we predict the unknown label, we need to read the predicted data
@@ -143,21 +86,8 @@ if class_label == "Unknown":
     X_test = X_test.values
     #--- set the y_test
     y_test = np.full(len(X_test), "Unknown")
-    # #--- read label data
-    # with open("{0}/{1}".format(input_path, input_y_test_file), 'r') as file:
-    #     y_test = file.read()
-    #
-    # y_test = pd.read_csv(io.StringIO(y_test), delimiter=' ', header = 0)
-    # y_test = y_test["label"]
-    # y_test = y_test.values
 
 
-# # random.seed(20240321)
-# # data = data.sample(n=1000)
-
-# #--- divide the label (y) and features (X)
-# X = data.drop("Gender", axis = 1)
-# y = data["Gender"]
 
 #--- save the prediction results
 df_titles = pd.DataFrame({
